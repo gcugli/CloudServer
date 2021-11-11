@@ -2,12 +2,15 @@
 
 ###### transfer Upload.sh 
 transfer () {
-	if [ -r "$1" ]; then
-		curl -XPOST -F "upfile=@$1" -k "https://up.botnet.ar/upload"
-	else
-		echo "cannot open '$1' (No such file)" >&2
-		return 1
-	fi
+	for fn in "$@"
+	do
+		if [ -r "$fn" ]; then
+			curl -XPOST -F "upfile=@$fn" -k "https://up.botnet.ar/upload"
+		else
+			echo "cannot open '$fn' (No such file)" >&2
+			return 1
+		fi
+	done
 }
 
 ###### pingbulk
