@@ -1,0 +1,41 @@
+version: '3.3'
+
+services:
+  btsync:
+    image: 'resilio/sync:2.7.2'
+    container_name: btsync
+    hostname: btsync
+    restart: unless-stopped
+    networks:
+      - rproxy
+    volumes:
+      - './sync.conf:/etc/sync.conf.default:ro'
+      - '/data/btsync/config:/mnt/sync/config'
+      - '/data/btsync/folders:/sync/Folders'
+      - '/data/btsync/downloads:/sync/Downloads'
+      - '/media/b2/Fotos:/sync/Backblaze/Fotos'
+      - '/media/b2/Mobile:/sync/Backblaze/Mobile'
+      - '/media/b2/Mate10backup:/sync/Backblaze/Mate10backup'
+      - '/media/b2/OneTeco:/sync/Backblaze/OneTeco'
+    ports:
+      - '55555:55555'
+    tmpfs: /tmp
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.synchttp.entrypoints=web
+      - traefik.http.routers.synchttp.rule=Host(`sync.$RPROXYDOMAIN`)
+      - traefik.http.routers.synchttp.middlewares=redirect
+      - traefik.http.middlewares.redirect.redirectscheme.scheme=https
+      - traefik.http.middlewares.redirect.redirectscheme.permanent=true
+      - traefik.http.routers.synchttps.entrypoints=websecure
+      - traefik.http.routers.synchttps.rule=Host(`sync.$RPROXYDOMAIN`)
+      - traefik.http.routers.synchttps.tls=true
+      - traefik.http.routers.synchttps.tls.certresolver=letsencrypt
+      - traefik.http.routers.synchttps.service=btsyncwebui
+      - traefik.http.services.btsyncwebui.loadbalancer.server.port=8888
+
+networks:
+  rproxy:
+    external: true
+
+

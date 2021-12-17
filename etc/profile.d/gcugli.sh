@@ -5,7 +5,7 @@ transfer () {
 	for fn in "$@"
 	do
 		if [ -f "$fn" -a -r "$fn" -a -s "$fn" ]; then
-			curl -XPOST -F "upfile=@$fn" -k "https://up.botnet.ar/upload"
+			curl -XPOST -F "upfile=@$fn" "https://up.botnet.ar/upload"
 		else
 			echo "cannot open '$fn' (No such file)" >&2
 			return 1
