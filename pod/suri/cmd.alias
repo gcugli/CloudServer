@@ -1,0 +1,5 @@
+
+alias suriocc='docker exec -u www-data -it suri php occ'
+
+alias suriscan='docker exec -u www-data suri php occ files:scan'
+

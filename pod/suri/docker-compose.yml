@@ -1,0 +1,54 @@
+version: '2'
+
+services:
+  suri:
+    image: nextcloud:production@sha256:f2dc7bf82a4148bba66044f7288cb3220b9de0ef2229505b21d0dc8a976cd67c
+    restart: unless-stopped
+    networks:
+      - rproxy
+    depends_on:
+      - suridb
+    volumes:
+      - /data/suri/app:/var/www/html
+      - /data/suri/data:/var/www/html/data
+      - /var/local/httpd:/var/www/html/data/httpd/files
+    environment:
+      MYSQL_HOST: suridb
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: nextcloud
+      MYSQL_PASSWORD: ***************
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=suri"
+      - "traefik.port=80"
+      - "traefik.frontend.rule=Host:suri.botnet.ar"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.STSIncludeSubdomains=false"  # other projects
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.browserXSSFilter=false"
+      - "traefik.frontend.headers.frameDeny=false"
+      - "traefik.frontend.headers.contentTypeNosniff=false"
+    container_name: suri
+
+
+  suridb:
+    image: mariadb:10@sha256:b7894bd08e5752acdd41fea654cb89467c99e67b8293975bb5d787b27e66ce1a
+    restart: unless-stopped
+    networks:
+      - rproxy
+    volumes:
+      - /data/suri/db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ************************
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: nextcloud
+      MYSQL_PASSWORD: **************
+    container_name: suri-db
+
+
+networks:
+  rproxy:
+    external: true
+
+

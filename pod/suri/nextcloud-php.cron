@@ -1,0 +1,12 @@
+##
+# Links or copy this file to /etc/cron.d
+# file and symlinks must  be  owned  by  root and only writable by owner.
+#
+# sudo chown root /pod/suri/nextcloud-php.cron
+# sudo chmod 0644 /pod/suri/nextcloud-php.cron
+# sudo ln -s /pod/suri/nextcloud-php.cron /etc/cron.d/suri-php.cron 
+#
+# If cron is not running with parameter -l (Enable LSB compliant names for /etc/cron.d files.) is necesary edit /etc/crontab or exec "crontab -u root -e"
+
+*/15  *  *  *  *   root   /usr/bin/docker exec -u www-data suri php -f /var/www/html/cron.php
+

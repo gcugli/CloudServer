@@ -1,0 +1,267 @@
+{
+    "system": {
+        "htaccess.RewriteBase": "\/",
+        "memcache.local": "\\OC\\Memcache\\APCu",
+        "apps_paths": [
+            {
+                "path": "\/var\/www\/html\/apps",
+                "url": "\/apps",
+                "writable": false
+            },
+            {
+                "path": "\/var\/www\/html\/custom_apps",
+                "url": "\/custom_apps",
+                "writable": true
+            }
+        ],
+        "instanceid": "***REMOVED SENSITIVE VALUE***",
+        "passwordsalt": "***REMOVED SENSITIVE VALUE***",
+        "secret": "***REMOVED SENSITIVE VALUE***",
+        "trusted_domains": [
+            "suri.cugli.org"
+        ],
+        "datadirectory": "***REMOVED SENSITIVE VALUE***",
+        "overwrite.cli.url": "https:\/\/suri.cugli.org",
+        "dbtype": "mysql",
+        "version": "13.0.6.1",
+        "dbname": "***REMOVED SENSITIVE VALUE***",
+        "dbhost": "***REMOVED SENSITIVE VALUE***",
+        "dbport": "",
+        "dbtableprefix": "",
+        "mysql.utf8mb4": true,
+        "dbuser": "***REMOVED SENSITIVE VALUE***",
+        "dbpassword": "***REMOVED SENSITIVE VALUE***",
+        "installed": true,
+        "mail_domain": "***REMOVED SENSITIVE VALUE***",
+        "mail_smtpmode": "php",
+        "mail_smtpauthtype": "LOGIN",
+        "mail_from_address": "***REMOVED SENSITIVE VALUE***",
+        "maintenance": false,
+        "updater.release.channel": "production",
+        "loglevel": 2
+    },
+    "apps": {
+        "activity": {
+            "enabled": "yes",
+            "installed_version": "2.6.1",
+            "types": "filesystem"
+        },
+        "backgroundjob": {
+            "lastjob": "1219"
+        },
+        "comments": {
+            "enabled": "yes",
+            "installed_version": "1.3.0",
+            "types": "logging"
+        },
+        "core": {
+            "backgroundjobs_mode": "cron",
+            "installedat": "1519472589.393",
+            "lastcron": "1606904102",
+            "lastupdateResult": "{\"version\":\"14.0.14.1\",\"versionstring\":\"Nextcloud 14.0.14\",\"url\":\"https:\\\/\\\/download.nextcloud.com\\\/server\\\/releases\\\/nextcloud-14.0.14.zip\",\"web\":\"https:\\\/\\\/docs.nextcloud.com\\\/server\\\/14\\\/admin_manual\\\/maintenance\\\/upgrade.html\",\"autoupdater\":\"1\",\"eol\":\"1\"}",
+            "lastupdatedat": "1606860002",
+            "moveavatarsdone": "yes",
+            "oc.integritycheck.checker": "[]",
+            "previewsCleanedUp": "1",
+            "public_files": "files_sharing\/public.php",
+            "public_webdav": "dav\/appinfo\/v1\/publicwebdav.php",
+            "scss.variables": "3153d2d9a48199874deba13c2ce21eb6",
+            "shareapi_exclude_groups": "no",
+            "shareapi_exclude_groups_list": "[\"\"]",
+            "shareapi_only_share_with_group_members": "yes",
+            "umgmt_show_email": "true",
+            "updater.secret.created": "1600267927",
+            "vendor": "nextcloud"
+        },
+        "dav": {
+            "buildCalendarSearchIndex": "yes",
+            "enabled": "yes",
+            "generateBirthdayCalendar": "no",
+            "installed_version": "1.4.7",
+            "sendInvitations": "no",
+            "types": "filesystem"
+        },
+        "deck": {
+            "enabled": "yes",
+            "installed_version": "0.5.2",
+            "types": "logging"
+        },
+        "federatedfilesharing": {
+            "enabled": "yes",
+            "installed_version": "1.3.1",
+            "types": ""
+        },
+        "federation": {
+            "enabled": "no",
+            "installed_version": "1.3.0",
+            "types": "authentication"
+        },
+        "files": {
+            "cronjob_scan_files": "500",
+            "default_quota": "1 GB",
+            "enabled": "yes",
+            "installed_version": "1.8.0",
+            "types": "filesystem"
+        },
+        "files_external": {
+            "allow_user_mounting": "yes",
+            "enabled": "no",
+            "installed_version": "1.4.1",
+            "types": "filesystem",
+            "user_mounting_backends": "ftp,dav,owncloud,sftp,amazons3,swift,\\OC\\Files\\Storage\\SFTP_Key"
+        },
+        "files_pdfviewer": {
+            "enabled": "yes",
+            "installed_version": "1.2.1",
+            "types": ""
+        },
+        "files_sharing": {
+            "enabled": "yes",
+            "incoming_server2server_share_enabled": "no",
+            "installed_version": "1.5.0",
+            "lookupServerUploadEnabled": "no",
+            "outgoing_server2server_share_enabled": "no",
+            "types": "filesystem"
+        },
+        "files_texteditor": {
+            "enabled": "yes",
+            "installed_version": "2.5.1",
+            "types": ""
+        },
+        "files_trashbin": {
+            "enabled": "yes",
+            "installed_version": "1.3.0",
+            "types": "filesystem"
+        },
+        "files_versions": {
+            "enabled": "yes",
+            "installed_version": "1.6.0",
+            "types": "filesystem"
+        },
+        "files_videoplayer": {
+            "enabled": "yes",
+            "installed_version": "1.2.0",
+            "types": ""
+        },
+        "firstrunwizard": {
+            "enabled": "yes",
+            "installed_version": "2.2.1",
+            "types": "logging"
+        },
+        "gallery": {
+            "enabled": "yes",
+            "installed_version": "18.0.0",
+            "types": ""
+        },
+        "logreader": {
+            "enabled": "yes",
+            "installed_version": "2.0.0",
+            "ocsid": "170871",
+            "types": ""
+        },
+        "lookup_server_connector": {
+            "enabled": "yes",
+            "installed_version": "1.1.0",
+            "types": "authentication"
+        },
+        "nextcloud_announcements": {
+            "enabled": "yes",
+            "installed_version": "1.2.0",
+            "pub_date": "Thu, 24 Oct 2019 00:00:00 +0200",
+            "types": "logging"
+        },
+        "notes": {
+            "enabled": "yes",
+            "installed_version": "2.5.1",
+            "types": ""
+        },
+        "notifications": {
+            "enabled": "yes",
+            "installed_version": "2.1.2",
+            "types": "logging"
+        },
+        "oauth2": {
+            "enabled": "yes",
+            "installed_version": "1.1.1",
+            "types": "authentication"
+        },
+        "password_policy": {
+            "enabled": "yes",
+            "enforceNonCommonPassword": "1",
+            "installed_version": "1.3.0",
+            "minLength": "6",
+            "types": ""
+        },
+        "passwords": {
+            "SSEv1ServerKey": "8Pi7J10QP6NZd8irVrMoUw+TctibCuzfYMMHu8QbJDKnMNCuYwjZkBcRFnvX4NdlTj5yDmycKbCAS5nLCWaBF65yJ232Zp4YsWfswApNakPzmjORnE28TscwpIEg4rEKcJrmnaKVnV6ftfJj78DaSwVl4AenStrtdDw9oOKBzbSp1qGCU82UFF+iHUpEhfHBTdMgdtvaXEwJMRYcbX9x0lV5bzB2MbPKFAptjPoWwNQjlwe2BoUKlEGpJrbaaswEsTQw7mudqIGaZfrNhI5vjC46XErTHHHqHg\/hUNn34+9DZfnPM5g5gwtP3vbHl+\/\/LwSKthevb5aJOxsVDoRu8oQ4dbFl2JdAfwGSMcso7RnAr3XvM13WsEP+sxW\/dxNtD51FadO7H7VxCQZyDEclf6ns8V+Aic7QUUPHYH1\/pUzhk3lcxzlz2kqz0FrqbAo4KNZfMV0YJtJ205SFpvvtOk0+635mgPnuOIqoo7d08PlTTr1Ke4yaVJpv9YFwDgs\/xx4ZWzbuKxfSNjO+I1\/M0Tnh1AnbnspmwxGg2EE6aJ8c4853a9lvsXT4MuEl9+F0YELud8+tMY+wOEAnnxmrSS4\/flhD9mt+AAQYf7\/YXDyqxHqwutqXkowJFK8lCwY7ZPAPgYd7Q5jWZtm3D6O+lu\/9uIM1yjYilhhuvWVE9WHFfiNgaSQBILvLZJRdS3HKeBVZ+BnW4fI2iAEKsTpF5\/m3odwWktvrbb1LTQLf\/erm4Qilq+4ZqK0kJnGskSVSrteWNSPSa1c3ID1+jcKmibtHOMOubOHQ5IferzY9EoOkAkGB2zqRpvi1mSxt\/lipzh8OzEp8eT94IqEEcY6BUtQlv8J\/plu6VgG0q4Hue8HCVnJAF4Dz9Z5LyUw1H6NQIkDty2ttNaN0O48NQXz06R\/Bmy6O84jumOTntzhjltjBUdIeQT+CwW6u\/ebtSH5wF\/8bdGSauFHTUfRIhCAMUxcvFmRZIScKBHH6DRezHvlAFIuZ97sfYCr\/xhMJlKuJ",
+            "backup\/timestamp": "1606841102",
+            "enabled": "yes",
+            "installed_version": "2018.12.0",
+            "types": "",
+            "users\/deleted": "[]"
+        },
+        "provisioning_api": {
+            "enabled": "yes",
+            "installed_version": "1.3.0",
+            "types": "prevent_group_restriction"
+        },
+        "serverinfo": {
+            "enabled": "yes",
+            "installed_version": "1.3.0",
+            "types": ""
+        },
+        "sharebymail": {
+            "enabled": "yes",
+            "installed_version": "1.3.0",
+            "types": "filesystem"
+        },
+        "survey_client": {
+            "enabled": "yes",
+            "installed_version": "1.1.0",
+            "last_report": "{\"id\":\"ocg7isg690co\",\"items\":[[\"server\",\"version\",\"13.0.0.14\"],[\"server\",\"code\",\"other\"],[\"server\",\"enable_avatars\",\"yes\"],[\"server\",\"enable_previews\",\"yes\"],[\"server\",\"memcache.local\",\"\\\\OC\\\\Memcache\\\\APCu\"],[\"server\",\"memcache.distributed\",\"none\"],[\"server\",\"asset-pipeline.enabled\",\"no\"],[\"server\",\"filelocking.enabled\",\"yes\"],[\"server\",\"memcache.locking\",\"none\"],[\"server\",\"debug\",\"no\"],[\"server\",\"cron\",\"ajax\"],[\"php\",\"version\",\"7.1.14\"],[\"php\",\"memory_limit\",536870912],[\"php\",\"max_execution_time\",3600],[\"php\",\"upload_max_filesize\",535822336],[\"database\",\"type\",\"mysql\"],[\"database\",\"version\",\"10.2.13\"],[\"database\",\"size\",3497984],[\"apps\",\"activity\",\"2.6.1\"],[\"apps\",\"comments\",\"1.3.0\"],[\"apps\",\"dav\",\"1.4.6\"],[\"apps\",\"deck\",\"0.3.0\"],[\"apps\",\"federatedfilesharing\",\"1.3.1\"],[\"apps\",\"federation\",\"disabled\"],[\"apps\",\"files\",\"1.8.0\"],[\"apps\",\"files_external\",\"disabled\"],[\"apps\",\"files_pdfviewer\",\"1.2.0\"],[\"apps\",\"files_sharing\",\"1.5.0\"],[\"apps\",\"files_texteditor\",\"2.5.1\"],[\"apps\",\"files_trashbin\",\"1.3.0\"],[\"apps\",\"files_versions\",\"1.6.0\"],[\"apps\",\"files_videoplayer\",\"1.2.0\"],[\"apps\",\"firstrunwizard\",\"2.2.1\"],[\"apps\",\"gallery\",\"18.0.0\"],[\"apps\",\"logreader\",\"2.0.0\"],[\"apps\",\"lookup_server_connector\",\"1.1.0\"],[\"apps\",\"nextcloud_announcements\",\"1.2.0\"],[\"apps\",\"notifications\",\"2.1.2\"],[\"apps\",\"oauth2\",\"1.1.0\"],[\"apps\",\"password_policy\",\"1.3.0\"],[\"apps\",\"provisioning_api\",\"1.3.0\"],[\"apps\",\"serverinfo\",\"1.3.0\"],[\"apps\",\"sharebymail\",\"1.3.0\"],[\"apps\",\"survey_client\",\"1.1.0\"],[\"apps\",\"systemtags\",\"1.3.0\"],[\"apps\",\"theming\",\"1.4.1\"],[\"apps\",\"twofactor_backupcodes\",\"1.2.3\"],[\"apps\",\"updatenotification\",\"1.3.0\"],[\"apps\",\"workflowengine\",\"1.3.0\"],[\"stats\",\"num_files\",4000],[\"stats\",\"num_users\",9],[\"stats\",\"num_storages\",10],[\"stats\",\"num_storages_local\",1],[\"stats\",\"num_storages_home\",9],[\"stats\",\"num_storages_other\",0],[\"stats\",\"num_comments\",0],[\"stats\",\"num_comment_markers\",0],[\"stats\",\"num_systemtags\",0],[\"stats\",\"num_systemtags_mappings\",0],[\"files_sharing\",\"num_shares\",2],[\"files_sharing\",\"num_shares_user\",2],[\"files_sharing\",\"num_shares_groups\",0],[\"files_sharing\",\"num_shares_link\",0],[\"files_sharing\",\"num_shares_link_no_password\",0],[\"files_sharing\",\"num_fed_shares_sent\",0],[\"files_sharing\",\"num_fed_shares_received\",0],[\"files_sharing\",\"permissions_0_31\",\"2\"],[\"encryption\",\"enabled\",\"no\"],[\"encryption\",\"default_module\",\"no\"]]}",
+            "last_sent": "1520174243",
+            "types": ""
+        },
+        "systemtags": {
+            "enabled": "no",
+            "installed_version": "1.3.0",
+            "types": "logging"
+        },
+        "theming": {
+            "cachebuster": "45",
+            "color": "#32E359",
+            "enabled": "yes",
+            "installed_version": "1.4.5",
+            "logoMime": "image\/svg+xml",
+            "name": "suri",
+            "slogan": "mi lugar en la nube",
+            "types": "logging",
+            "url": "https:\/\/suri.cugli.org"
+        },
+        "twofactor_backupcodes": {
+            "enabled": "yes",
+            "installed_version": "1.2.3",
+            "types": ""
+        },
+        "twofactor_totp": {
+            "enabled": "yes",
+            "installed_version": "1.4.1",
+            "types": ""
+        },
+        "updatenotification": {
+            "core": "14.0.14.1",
+            "deck": "0.5.2",
+            "enabled": "yes",
+            "files_pdfviewer": "1.2.1",
+            "installed_version": "1.3.0",
+            "theming": "1.4.5",
+            "types": "",
+            "update_check_errors": "0"
+        },
+        "workflowengine": {
+            "enabled": "yes",
+            "installed_version": "1.3.0",
+            "types": "filesystem"
+        }
+    }
+}
