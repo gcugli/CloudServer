@@ -15,3 +15,10 @@ Start Cloud CentOS 7 server
 	...
 
 
+Mounts
+------
+
+```bash
+mount -o bind,ro /etc /home/cgc/repo/CloudServer/etc
+mount -o bind,ro /pod /home/cgc/repo/CloudServer/pod
+```

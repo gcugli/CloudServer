@@ -1,0 +1,31 @@
+version: "3.3"
+
+services:
+  upload:
+    image: uploadsh
+    container_name: upload
+    hostname: upload
+    restart: unless-stopped
+    env_file: ./config.env
+    environment:
+      UPLOAD_URL_BASE: https://up.$RPROXYDOMAIN/
+    networks:
+      - rproxy
+    volumes:
+      - '/data/upload/files:/usr/src/app/uploads'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.upshhttp.entrypoints=web"
+      - "traefik.http.routers.upshhttp.rule=Host(`up.$RPROXYDOMAIN`)"
+      - "traefik.http.routers.upshhttp.middlewares=redirect"
+      - "traefik.http.middlewares.redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.redirect.redirectscheme.permanent=true"
+      - "traefik.http.routers.uploadsh.entrypoints=websecure"
+      - "traefik.http.routers.uploadsh.rule=Host(`up.$RPROXYDOMAIN`)"
+      - "traefik.http.routers.uploadsh.tls=true"
+      - "traefik.http.routers.uploadsh.tls.certresolver=letsencrypt"
+
+networks:
+  rproxy:
+    external: true
+
