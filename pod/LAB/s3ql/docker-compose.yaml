@@ -1,0 +1,47 @@
+version: '3.5'
+
+services:
+  s3ql:
+    image: salokyn/docker-s3ql
+    restart: "no"
+    volumes:
+      - /media/MediaFS:/s3ql:shared
+      - /var/cache/s3ql/media:/root/.s3ql
+    environment:
+      - S3QL_USERNAME=$S3QL_B2_KEYID
+      - S3QL_PASSWORD=$S3QL_B2_APPKEY
+      # S3QL_AUTHFILE=/etc/s3ql/authfile2
+      - S3QL_URL=b2://Media-s3ql
+      - S3QL_MOUNT_OPTIONS=--allow-other --cachesize 10000000
+    security_opt:
+      - apparmor:unconfined 
+    cap_add:
+      - SYS_ADMIN
+    devices:
+      - /dev/fuse
+    stop_grace_period: 10m
+    container_name: s3qltest
+
+  app:
+    image: nginx:latest
+    depends_on:
+      - s3ql
+    restart: unless-stopped
+    networks:
+      - rproxy
+    volumes:
+      - /media/MediaFS:/usr/share/nginx/html:slave
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=s3qlpub"
+      - "traefik.port=80"
+      - "traefik.frontend.rule=Host:io.botnet.ar"
+    container_name: pubs3ql
+    hostname: pubs3ql
+
+
+networks:
+  rproxy:
+    external: true
+
+

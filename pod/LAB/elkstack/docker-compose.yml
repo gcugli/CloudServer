@@ -1,0 +1,74 @@
+version: "3"
+services:
+    elasticsearch:
+        image: elasticsearch:7.14.0
+        container_name: elasticsearch
+        hostname: elasticsearch
+        environment:
+            - "discovery.type=single-node"
+        ports:
+            - 9200:9200
+            - 9300:9300
+        networks:
+            - elknetwork
+    kibana:
+        image: kibana:7.14.0
+        container_name: kibana
+        hostname: kibana
+        environment:
+            - "SERVER_PUBLICBASEURL=https://log.$RPROXYDOMAIN"
+        ports:
+            - 5601:5601
+        links:
+            - elasticsearch:elasticsearch
+        depends_on:
+          - elasticsearch
+        networks:
+          - elknetwork
+        labels:
+          - "traefik.enable=true"
+          - "traefik.http.routers.kibanahttp.entrypoints=web"
+          - "traefik.http.routers.kibanahttp.rule=Host(`log.$RPROXYDOMAIN`)"
+          - "traefik.http.routers.kibanahttp.middlewares=redirect"
+          - "traefik.http.middlewares.redirect.redirectscheme.scheme=https"
+          - "traefik.http.middlewares.redirect.redirectscheme.permanent=true"
+          - "traefik.http.routers.kibanahttps.entrypoints=websecure"
+          - "traefik.http.routers.kibanahttps.rule=Host(`log.$RPROXYDOMAIN`)"
+          - "traefik.http.routers.kibanahttps.tls=true"
+          - "traefik.http.routers.kibanahttps.tls.certresolver=letsencrypt"
+#     - "traefik.http.routers.dashboard.service=api@internal"
+#     - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+
+    logstash:
+        image: logstash:7.14.0
+        container_name: logstash
+        hostname: logstash
+        ports:
+            - 9600:9600
+            - 8089:8089
+        volumes:
+          - .\logstash:/usr/share/logstash/pipeline/
+        links:
+            - elasticsearch:elasticsearch
+        depends_on:
+          - elasticsearch
+        networks:
+          - elknetwork
+    app:
+        image: harisshafiq09/sample-app:latest
+        container_name: app
+        command: /var/sample-app
+        depends_on:
+           - logstash
+        ports:
+            - 8083:8083
+        logging:
+            driver: syslog
+            options:
+                syslog-address: "tcp://localhost:8089"
+        networks:
+          - elknetwork
+networks:
+    elknetwork:
+        driver: bridge
+

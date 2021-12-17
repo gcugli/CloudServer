@@ -1,0 +1,32 @@
+version: '3.5'
+
+services:
+  s3qlab:
+    image: salokyn/docker-s3ql
+    restart: "no"
+    networks:
+      - localbr
+    volumes:
+      - /media/s3qLab:/s3ql:shared
+      - /var/cache/s3ql/lab:/root/.s3ql
+      - /etc/s3ql/s3qLabBackBlaze.authinfo2:/etc/s3ql/authfile2
+    environment:
+      - S3QL_AUTHFILE=/etc/s3ql/authfile2
+      - S3QL_URL=b2://s3ql-lab
+      - S3QL_MOUNT_OPTIONS=--allow-other --cachesize 1000000
+    security_opt:
+      - apparmor:unconfined 
+    cap_add:
+      - SYS_ADMIN
+    devices:
+      - /dev/fuse
+    stop_grace_period: 10m
+    hostname: s3qlab
+    container_name: s3qlab
+
+
+networks:
+  localbr:
+    external: true
+
+
