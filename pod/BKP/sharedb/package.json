@@ -1,0 +1,28 @@
+{
+  "name": "sharedb-server",
+  "version": "1.0.1",
+  "description": "ShareDB Server",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "server": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.cugli.org/server/ShareDB.git"
+  },
+  "keywords": [
+    "shareDB"
+  ],
+  "author": "gcugli",
+  "license": "ISC",
+  "dependencies": {
+    "@teamwork/websocket-json-stream": "^2.0.0",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.2",
+    "sharedb": "^1.3.2",
+    "sharedb-mingo-memory": "^1.1.2",
+    "ws": "^7.2.3"
+  }
+}

@@ -1,0 +1,32 @@
+version: '2'
+
+services:
+  blog:
+    image: ghost:2.14.3-alpine
+    restart: unless-stopped
+    networks:
+      - rproxy
+    volumes:
+      - /data/blog/content:/var/lib/ghost/content
+    environment:
+      url: https://blog.cugli.org
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=blog"
+      - "traefik.port=2368"
+      - "traefik.frontend.rule=Host:blog.$RPROXYDOMAIN"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.STSIncludeSubdomains=false"  # other projects
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.browserXSSFilter=false"
+      - "traefik.frontend.headers.frameDeny=false"
+      - "traefik.frontend.headers.contentTypeNosniff=false"
+    container_name: blog
+    hostname: blog
+
+networks:
+  rproxy:
+    external: true
+
+

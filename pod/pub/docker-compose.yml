@@ -1,0 +1,26 @@
+version: '2'
+
+services:
+  pub:
+    image: nginx:latest
+    restart: unless-stopped
+    networks:
+      - rproxy
+    volumes:
+    # - /var/local/httpd:/usr/share/nginx/html:ro
+      - /home/cgc/public:/usr/share/nginx/html/cgc:ro
+      - /home/cgc/workspace:/usr/share/nginx/html/workspace:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=pub"
+      - "traefik.port=80"
+      - "traefik.frontend.rule=Host:pub.$RPROXYDOMAIN"
+    container_name: pub
+    hostname: pub
+
+
+networks:
+  rproxy:
+    external: true
+
+

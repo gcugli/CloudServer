@@ -1,0 +1,62 @@
+version: '2'
+
+services:
+  guacdb:
+    image: mysql:5.7
+    restart: unless-stopped
+    networks:
+      - rproxy
+    volumes:
+      - db:/var/lib/mysql
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 1
+      MYSQL_DATABASE: guacamole_db
+      MYSQL_USER: guacamole_user
+      MYSQL_PASSWORD: ChangeMeHere
+    container_name: guacdb
+
+  guacd:
+    image: guacamole/guacd
+    restart: unless-stopped
+    networks:
+      - rproxy
+    depends_on:
+      - guacdb
+    container_name: guacd
+
+  guacamole:
+    image: guacamole/guacamole
+    restart: unless-stopped
+    networks:
+      - rproxy
+    depends_on:
+      - guacdb
+      - guacd
+    environment:
+      GUACD_HOSTNAME: guacd
+      MYSQL_HOSTNAME: guacdb
+      MYSQL_DATABASE: guacamole_db
+      MYSQL_USER: guacamole_user
+      MYSQL_PASSWORD: ChangeMeHere
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=guacamole"
+      - "traefik.port=8080"
+      - "traefik.frontend.rule=Host:ssh.$RPROXYDOMAIN;AddPrefix:/guacamole"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.STSIncludeSubdomains=false"  # other projects
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.browserXSSFilter=false"
+      - "traefik.frontend.headers.frameDeny=false"
+      - "traefik.frontend.headers.contentTypeNosniff=false"
+    container_name: guacamole
+
+
+volumes:
+  db:
+
+networks:
+  rproxy:
+    external: true
+

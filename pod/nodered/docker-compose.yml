@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  nodered:
+    image: nodered/node-red:latest
+    restart: unless-stopped
+    networks:
+      - rproxy
+    volumes:
+      - ./data:/data
+    user: root:root             # necessary to avoid 'access denied'
+    environment:
+      TZ: America/Buenos_Aires
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=nodered"
+      - "traefik.port=1880"
+      - "traefik.frontend.rule=Host:red.$RPROXYDOMAIN"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.STSIncludeSubdomains=false"  # other projects
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.browserXSSFilter=false"
+      - "traefik.frontend.headers.frameDeny=false"
+      - "traefik.frontend.headers.contentTypeNosniff=false"
+    container_name: nodered
+    hostname: nodered
+
+
+networks:
+  rproxy:
+    external: true
+
+

@@ -1,0 +1,52 @@
+version: "3.6"
+
+# https://hackmd.io/s/codimd-configuration
+
+services:
+  codimd:
+    image: hackmdio/hackmd:2.3.2
+    network_mode: service:database
+    environment:
+      - CMD_DB_URL=postgres://codimd:change2password@database/codimd
+      - CMD_USECDN=false
+      - CMD_ALLOW_ANONYMOUS_EDITS=true
+      - CMD_ALLOW_ANONYMOUS=true
+    depends_on:
+      - database
+    #volumes:
+     # - /media/s3qLab/hackmd/uploads:/home/hackmd/app/public/uploads
+    restart: "no" #unless-stopped
+    container_name: codimd
+
+  database:
+    image: postgres:11.6-alpine
+    networks:
+      - rproxy
+    environment:
+      - POSTGRES_USER=codimd
+      - POSTGRES_PASSWORD=change2password
+      - POSTGRES_DB=codimd
+    #volumes:
+     # - /media/s3qLab/hackmd/database:/var/lib/postgresql/data
+    restart: "no" #unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=codimd"
+      - "traefik.port=3000"
+      - "traefik.frontend.rule=Host:md.botnet.ar"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.STSIncludeSubdomains=false"  # other projects
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.browserXSSFilter=false"
+      - "traefik.frontend.headers.frameDeny=false"
+      - "traefik.frontend.headers.contentTypeNosniff=false"
+    container_name: codidb
+
+
+
+networks:
+  rproxy:
+    external: true
+
+

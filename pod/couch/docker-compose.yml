@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+  db:
+    image: couchdb:3.0
+    restart: unless-stopped
+    networks:
+      - rproxy
+    environment:
+      COUCHDB_USER: admin
+      COUCHDB_PASSWORD: ChangeMeSoon
+    volumes:
+      - /data/couch/data:/opt/couchdb/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=couch"
+      - "traefik.port=5984"
+      - "traefik.frontend.rule=Host:couch.cugli.net"
+    container_name: couch
+    hostname: couch
+
+
+networks:
+  rproxy:
+    external: true
+
+

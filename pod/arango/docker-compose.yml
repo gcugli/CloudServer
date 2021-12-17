@@ -1,0 +1,41 @@
+version: '2'
+
+services:
+  arango:
+    image: arangodb:3.6
+    restart: unless-stopped
+    networks:
+      - rproxy
+    volumes:
+      - data:/var/lib/arangodb3
+      - apps:/var/lib/arangodb3-apps
+      - ./arangod.conf:/etc/arangodb3/arangod.conf
+    ports:
+      - 8529:8529
+    environment:
+      #ARANGO_NO_AUTH: 1
+      ARANGO_ROOT_PASSWORD: ChangeMeSoon
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=arango"
+      - "traefik.port=8529"
+      - "traefik.frontend.rule=Host:arango.botnet.ar"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.STSIncludeSubdomains=false"  # other projects
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.browserXSSFilter=false"
+      - "traefik.frontend.headers.frameDeny=false"
+      - "traefik.frontend.headers.contentTypeNosniff=false"
+    container_name: arango
+
+
+volumes:
+  apps:
+  data:
+
+
+networks:
+  rproxy:
+    external: true
+

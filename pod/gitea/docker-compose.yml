@@ -1,0 +1,32 @@
+version: '2'
+
+services:
+  gitea:
+    image: sha256:285211a5bd77a4a099d7b17211cca4bf89558c0df9023d4a639c2300b6d2b870
+    restart: unless-stopped
+    networks:
+      - rproxy
+    volumes:
+      - /data/gitea/data:/data
+    ports:
+      - "22:22"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=gitea"
+      - "traefik.port=3000"
+      - "traefik.frontend.rule=Host:git.$RPROXYDOMAIN"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.STSIncludeSubdomains=false"  # other projects
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.browserXSSFilter=false"
+      - "traefik.frontend.headers.frameDeny=false"
+      - "traefik.frontend.headers.contentTypeNosniff=false"
+    container_name: gitea
+
+
+networks:
+  rproxy:
+    external: true
+
+

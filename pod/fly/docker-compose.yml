@@ -1,0 +1,28 @@
+version: "3.3"
+
+services:
+  fly:
+    image: nginx:latest
+    container_name: fly
+    hostname: fly
+    restart: unless-stopped
+    networks:
+      - rproxy
+    #volumes:
+    #  - /data/fly:/usr/share/nginx/html:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.flyhttp.entrypoints=web"
+      - "traefik.http.routers.flyhttp.rule=Host(`fly.$RPROXYDOMAIN`)"
+#      - "traefik.http.routers.flyhttp.middlewares=redirect"
+#      - "traefik.http.middlewares.redirect.redirectscheme.scheme=https"
+#      - "traefik.http.middlewares.redirect.redirectscheme.permanent=true"
+      - "traefik.http.routers.flyhttps.entrypoints=websecure"
+      - "traefik.http.routers.flyhttps.rule=Host(`fly.$RPROXYDOMAIN`)"
+      - "traefik.http.routers.flyhttps.tls=true"
+      - "traefik.http.routers.flyhttps.tls.certresolver=letsencrypt"
+
+networks:
+  rproxy:
+    external: true
+

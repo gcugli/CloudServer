@@ -1,0 +1,38 @@
+version: '2'
+
+services:
+  code:
+    image: linuxserver/codiad:latest # sha256:cd3693256911714d952bf391e370dbc22b2393392ac9c0faf5333ebe533e37ce
+    restart: unless-stopped
+    networks:
+      - rproxy
+    volumes:
+      - config:/config
+      - /home/cgc/workspace:/config/www/workspace
+      # workspace: should be commented during init server, to avoid error (/config/www already exists) 
+    environment:
+      PGID: 1000
+      PUID: 1000
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=code"
+      - "traefik.port=80"
+      - "traefik.frontend.rule=Host:code.$RPROXYDOMAIN"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.STSIncludeSubdomains=false"  # other projects
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.browserXSSFilter=false"
+      - "traefik.frontend.headers.frameDeny=false"
+      - "traefik.frontend.headers.contentTypeNosniff=false"
+    container_name: code
+
+
+volumes:
+  config:
+
+
+networks:
+  rproxy:
+    external: true
+
