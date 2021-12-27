@@ -1,6 +1,9 @@
 
 dnf update -y
 
+# On kernel related updates it is recommended to perform a system restart:
+# sudo reboot
+
 dnf -y install mosh
 dnf -y install rsync lftp
 dnf -y install git

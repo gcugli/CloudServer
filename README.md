@@ -19,6 +19,6 @@ Mounts
 ------
 
 ```bash
-mount -o bind,ro /etc /home/cgc/repo/CloudServer/etc
-mount -o bind,ro /pod /home/cgc/repo/CloudServer/pod
+sudo mount -o bind,ro /etc /home/cgc/repo/CloudServer/etc
+sudo mount -o bind,ro /pod /home/cgc/repo/CloudServer/pod
 ```
