@@ -1,0 +1,32 @@
+version: '2'
+
+services:
+  requestbin:
+    image: crccheck/requestbin
+    restart: unless-stopped
+    depends_on:
+      - redis
+    environment:
+      REDIS_URL: redis://redis:6379/0
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=requestbin"
+      # "traefik.port=8080"
+      - "traefik.frontend.rule=Host:requestbin.cugli.life"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.STSIncludeSubdomains=false"  # other projects
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.browserXSSFilter=false"
+      - "traefik.frontend.headers.frameDeny=false"
+      - "traefik.frontend.headers.contentTypeNosniff=false"
+    container_name: rqtbin
+
+
+  redis:
+    image: redis
+    restart: unless-stopped
+    container_name: rqtbin-db
+
+
+

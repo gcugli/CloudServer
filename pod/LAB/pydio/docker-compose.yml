@@ -1,0 +1,58 @@
+version: '3'
+
+services:
+
+  cells:
+    image: pydio/cells:latest
+    restart: unless-stopped
+    ports: ["8085:8080"]
+    depends_on:
+      - mysql
+    networks:
+      - rproxy
+    environment:
+      - CELLS_NO_TLS=1
+      - CELLS_BIND=cells:8080
+      - CELLS_EXTERNAL=https://io.cugli.net
+    volumes:
+      - ./pydio.json:/var/cells/pydio.json
+      - workingdir:/var/cells
+      - datadir:/var/cells/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=pydio"
+      - "traefik.port=8080"
+      - "traefik.frontend.rule=Host:io.cugli.org"
+    container_name: pydio-cells
+    hostname: cells
+
+
+  mysql:
+    image: mysql:5.7
+    restart: always
+    networks:
+      - rproxy
+    environment:
+      MYSQL_ROOT_PASSWORD: *************
+      MYSQL_DATABASE: cells
+      MYSQL_USER: pydio
+      MYSQL_PASSWORD: *************
+    command: [mysqld, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci]
+    volumes:
+      - "mysqldir:/var/lib/mysql"
+    container_name: pydio-mysql
+    hostname: pydiodb
+
+volumes:
+  workingdir: {}
+  datadir: {}
+  mysqldir: {}
+
+
+networks:
+  rproxy:
+    external: true
+
+## Inital Setup: >  dkc run cells cells install
+
+ 

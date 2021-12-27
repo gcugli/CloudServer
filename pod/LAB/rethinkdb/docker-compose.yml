@@ -1,0 +1,29 @@
+version: '2'
+
+services:
+  rethinkdb:
+    image: rethinkdb:latest
+    restart: unless-stopped
+    volumes:
+      - data:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=rethinkdb"
+      - "traefik.port=8080"
+      - "traefik.frontend.rule=Host:rtdb.cugli.net"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.STSIncludeSubdomains=false"  # other projects
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.browserXSSFilter=false"
+      - "traefik.frontend.headers.frameDeny=false"
+      - "traefik.frontend.headers.contentTypeNosniff=false"
+    container_name: rethinkdb
+    hostname: rethinkdb7
+    
+
+
+volumes:
+  data:
+
+

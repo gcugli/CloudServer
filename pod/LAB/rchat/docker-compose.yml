@@ -1,0 +1,40 @@
+version: '2'
+
+services:
+  rocketchat:
+    image: rocketchat/rocket.chat:latest
+    restart: unless-stopped
+    #volumes:
+      # ./uploads:/app/uploads
+    environment:
+      - PORT=3000
+      - ROOT_URL=https://cugli.life/chat
+      # ROOT_URL=http://localhost:3000
+      - MONGO_URL=mongodb://rchatdb:27017/rocketchat
+      # MONGO_OPLOG_URL=mongodb://rchatdb:27017/local
+      # MAIL_URL=smtp://smtp.email
+    depends_on:
+      - mongo
+    #ports:
+      # 3000:3000
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=rocketchat"
+      - "traefik.port=3000"
+      - "traefik.frontend.rule=Host:chat.cugli.life"
+    container_name: rchat
+
+  mongo:
+    image: mongo:3.2
+    restart: unless-stopped
+    #volumes:
+     # ./data/db:/data/db
+     # ./data/dump:/dump
+    command: mongod --smallfiles --oplogSize 128
+    labels:
+      - "traefik.enable=false"
+    container_name: rchatdb
+
+
+
+

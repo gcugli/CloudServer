@@ -1,0 +1,58 @@
+version: "3"
+services:
+
+  wikidb:
+    image: postgres:11-alpine
+    networks:
+      - rproxy
+    environment:
+      POSTGRES_DB: wiki
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      POSTGRES_USER: wikijs
+    logging:
+      driver: "none"
+    restart: unless-stopped
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    container_name: wikidb
+
+  wiki:
+    image: requarks/wiki:2
+    restart: unless-stopped
+    networks:
+      - rproxy
+    depends_on:
+      - wikidb
+    volumes:
+      - ./files:/wiki/localFiles
+    environment:
+      DB_TYPE: postgres
+      DB_HOST: wikidb
+      DB_PORT: 5432
+      DB_USER: wikijs
+      DB_PASS: $POSTGRES_PASSWORD
+      DB_NAME: wiki
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=wiki"
+      - "traefik.port=3000"
+      - "traefik.frontend.rule=Host:wiki.botnet.ar"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.STSIncludeSubdomains=false"  # other projects
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.browserXSSFilter=false"
+      - "traefik.frontend.headers.frameDeny=false"
+      - "traefik.frontend.headers.contentTypeNosniff=false"
+    container_name: wiki
+    hostname: wiki
+
+volumes:
+  db-data:
+
+
+networks:
+  rproxy:
+    external: true
+
+

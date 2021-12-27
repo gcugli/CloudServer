@@ -1,0 +1,30 @@
+version: '2'
+
+services:
+  mockbin:
+    image: mashape/mockbin:latest
+    restart: unless-stopped
+    depends_on:
+      - redis
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=mockbin"
+      - "traefik.port=8080"
+      - "traefik.frontend.rule=Host:mockbin.cugli.life"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.STSIncludeSubdomains=false"  # other projects
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.browserXSSFilter=false"
+      - "traefik.frontend.headers.frameDeny=false"
+      - "traefik.frontend.headers.contentTypeNosniff=false"
+    container_name: mockbin
+
+
+  redis:
+    image: redis
+    restart: unless-stopped
+    container_name: mockbin-db
+
+
+

@@ -1,0 +1,33 @@
+version: '2'
+
+services:
+  rmtstrg:
+    image: laszl0/armadietto-docker
+    restart: unless-stopped
+    network_mode: bridge
+    volumes:
+      - data:/usr/src/app/data
+    environment:
+      SIGNUP: 0 
+      SSL_PROXY: 0
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=rmtstrg"
+      - "traefik.port=8000"
+      - "traefik.frontend.rule=Host:rmtstrg.cugli.life"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.STSIncludeSubdomains=false"  # other projects
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.browserXSSFilter=false"
+      - "traefik.frontend.headers.frameDeny=false"
+      - "traefik.frontend.headers.contentTypeNosniff=false"
+    hostname: rmtstrg
+    container_name: rmtstrg
+
+
+volumes:
+  data:
+
+
+# Set SIGNUP=1 to create accounts

@@ -1,0 +1,58 @@
+version: '3.5'
+
+services:
+
+  mongo:
+    image: mongo
+    restart: unless-stopped
+    networks:
+      - rproxy
+    ports:
+      - 27017:27017
+    volumes:
+      - ./config:/data/configdb
+      - ./data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: mondonGO!421
+    hostname: mongo
+    container_name: mongo
+
+  mongo-express:
+    image: mongo-express
+    restart: unless-stopped
+    network_mode: service:mongo
+    depends_on:
+      - mongo
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: mondonGO!421
+      #MYSQL_PASSWORD_FILE: /run/secrets/mariadb_suri_password
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=mongoweb"
+      - "traefik.port=8081"
+      - "traefik.frontend.rule=Host:mongo.botnet.ar"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.STSIncludeSubdomains=false"  # other projects
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.browserXSSFilter=false"
+      - "traefik.frontend.headers.frameDeny=false"
+      - "traefik.frontend.headers.contentTypeNosniff=false"
+      - "traefik.frontend.auth.basic=mongo:$$apr1$$hgbul6x4$$5S55YcUd7nqy5n5JZ44yP1" # Monitoronga
+    container_name: mongoweb
+    #secrets:
+    #  - mariadb_suri_password
+
+
+networks:
+  rproxy:
+    external: true
+
+#secrets:
+#  mariadb_root_password:
+#    file: ./secrets/mariadb_root_password
+#  mariadb_suri_password:
+#    file: ./secrets/mariadb_suri_password
+

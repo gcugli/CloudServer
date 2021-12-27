@@ -1,0 +1,61 @@
+version: '3'
+
+services:
+
+  synapse:
+    image: matrixdotorg/synapse:v1.7.3
+    # Since synapse does not retry to connect to the database, restart upon failure
+    restart: unless-stopped
+    networks:
+      - rproxy
+    environment:
+      # SYNAPSE_SERVER_NAME=cugli.net ## needed just for generate configuration files
+      - SYNAPSE_CONFIG_DIR=/config
+      # SYNAPSE_CONFIG_DIR=/data
+      # SYNAPSE_CONFIG_PATH=homeserver.yaml
+      - SYNAPSE_CONFIG_PATH=/config/matrix.yml
+      # SYNAPSE_CONFIG_PATH=/conf/matrix.yml
+      # SYNAPSE_REPORT_STATS=no
+      #- SYNAPSE_ENABLE_REGISTRATION=yes
+      - SYNAPSE_LOG_LEVEL=INFO
+      # POSTGRES_PASSWORD=*************
+      - UID=1000
+      - GID=1000
+    volumes:
+      - ./config:/config
+      - /data/matrix/files:/data    ## uid/gid 991
+    ##depends_on:
+    ##  - db
+    # In order to expose Synapse, remove one of the following, you might for
+    # instance expose the TLS port directly:
+    ports:
+      - 8443:8448/tcp
+    # ... or use a reverse proxy, here is an example for traefik:
+    labels:
+      - traefik.enable=true
+      - traefik.frontend.rule=Host:matrix.cugli.net
+      - traefik.port=8008
+      - traefik.frontend.entryPoints=http,https,matrix
+    hostname: matrix
+    container_name: matrix
+
+  ##db:
+    ##image: docker.io/postgres:10-alpine
+    # Change that password, of course!
+    #networks:
+    #  - rproxy
+    ##environment:
+    ##  - POSTGRES_USER=synapse
+    ##  - POSTGRES_PASSWORD=changeme
+    ##volumes:
+      # You may store the database tables in a local folder..
+      ##- ./schemas:/var/lib/postgresql/data
+      # .. or store them on some high performance storage for better results
+      # - /path/to/ssd/storage:/var/lib/postgresql/data
+
+networks:
+  rproxy:
+    external: true
+
+
+

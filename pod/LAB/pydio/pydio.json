@@ -1,0 +1,221 @@
+{
+  "databases": {
+    "adbad79163fa6153163b1bc5b28b57344de5c6b3": {
+      "driver": "mysql",
+      "dsn": "root:secretPyD10io@tcp(mysql:3306)/cells?parseTime=true"
+    },
+    "pydio.grpc.activity": {
+      "driver": "boltdb",
+      "dsn": "/var/cells/services/pydio.grpc.activity/activities.db"
+    },
+    "pydio.grpc.chat": {
+      "driver": "boltdb",
+      "dsn": "/var/cells/services/pydio.grpc.chat/chat.db"
+    }
+  },
+  "defaults": {
+    "database": "adbad79163fa6153163b1bc5b28b57344de5c6b3",
+    "datasource": "pydiods1",
+    "url": "https://io.cugli.net",
+    "urlInternal": "http://0.0.0.0:8080"
+  },
+  "frontend": {
+    "plugin": {
+      "core.pydio": {
+        "APPLICATION_TITLE": "Pydio Cells",
+        "DEFAULT_LANGUAGE": "en"
+      },
+      "editor.libreoffice": {
+        "LIBREOFFICE_HOST": "localhost",
+        "LIBREOFFICE_PORT": "9980",
+        "LIBREOFFICE_SSL": true
+      }
+    },
+    "versionSeed": "2ea937e4-b43a-4769-b507-4e4c774bffba"
+  },
+  "ports": {
+    "pydio.gateway.rest": 44416
+  },
+  "services": {
+    "pydio.grpc.data.index": {
+      "sources": [
+        "pydiods1",
+        "personal",
+        "cellsdata"
+      ]
+    },
+    "pydio.grpc.data.index.cellsdata": {
+      "dsn": "default",
+      "tables": {
+        "commits": "data_cellsdata_commits",
+        "nodes": "data_cellsdata_nodes",
+        "tree": "data_cellsdata_tree"
+      }
+    },
+    "pydio.grpc.data.index.personal": {
+      "dsn": "default",
+      "tables": {
+        "commits": "data_personal_commits",
+        "nodes": "data_personal_nodes",
+        "tree": "data_personal_tree"
+      }
+    },
+    "pydio.grpc.data.index.pydiods1": {
+      "dsn": "default",
+      "tables": {
+        "commits": "data_pydiods1_commits",
+        "nodes": "data_pydiods1_nodes",
+        "tree": "data_pydiods1_tree"
+      }
+    },
+    "pydio.grpc.data.objects": {
+      "sources": [
+        "local1"
+      ]
+    },
+    "pydio.grpc.data.objects.local1": {
+      "ApiKey": "P9gwX549a9v2CW1u",
+      "ApiSecret": "756bb35e-1b1a-4222-abf7-68e9f0671bc4",
+      "LocalFolder": "/var/cells/data",
+      "Name": "local1",
+      "RunningPort": 38386
+    },
+    "pydio.grpc.data.sync": {
+      "sources": [
+        "pydiods1",
+        "personal",
+        "cellsdata"
+      ]
+    },
+    "pydio.grpc.data.sync.cellsdata": {
+      "ApiKey": "P9gwX549a9v2CW1u",
+      "ApiSecret": "756bb35e-1b1a-4222-abf7-68e9f0671bc4",
+      "Name": "cellsdata",
+      "ObjectsBucket": "cellsdata",
+      "ObjectsPort": 38386,
+      "ObjectsServiceName": "local1",
+      "StorageConfiguration": {
+        "folder": "/var/cells/data/cellsdata",
+        "normalize": "false"
+      }
+    },
+    "pydio.grpc.data.sync.personal": {
+      "ApiKey": "P9gwX549a9v2CW1u",
+      "ApiSecret": "756bb35e-1b1a-4222-abf7-68e9f0671bc4",
+      "Name": "personal",
+      "ObjectsBucket": "personal",
+      "ObjectsPort": 38386,
+      "ObjectsServiceName": "local1",
+      "StorageConfiguration": {
+        "folder": "/var/cells/data/personal",
+        "normalize": "false"
+      }
+    },
+    "pydio.grpc.data.sync.pydiods1": {
+      "ApiKey": "P9gwX549a9v2CW1u",
+      "ApiSecret": "756bb35e-1b1a-4222-abf7-68e9f0671bc4",
+      "Name": "pydiods1",
+      "ObjectsBucket": "pydiods1",
+      "ObjectsPort": 38386,
+      "ObjectsServiceName": "local1",
+      "StorageConfiguration": {
+        "folder": "/var/cells/data/pydiods1",
+        "normalize": "false"
+      }
+    },
+    "pydio.grpc.mailer": {
+      "valid": true
+    },
+    "pydio.web.oauth": {
+      "cors": {
+        "public": {
+          "allowedOrigins": "*"
+        }
+      },
+      "insecureRedirects": [
+        "https://io.cugli.net/auth/callback"
+      ],
+      "issuer": "https://io.cugli.net/oidc/",
+      "secret": "5YsSHCqpDKzspAQCMwt8qKrgfWs771y3",
+      "staticClients": [
+        {
+          "audience": [
+            "https://io.cugli.net"
+          ],
+          "client_id": "cells-frontend",
+          "client_name": "CellsFrontend Application",
+          "grant_types": [
+            "authorization_code",
+            "refresh_token"
+          ],
+          "post_logout_redirect_uris": [
+            "https://io.cugli.net/auth/logout"
+          ],
+          "redirect_uris": [
+            "https://io.cugli.net/auth/callback"
+          ],
+          "response_types": [
+            "code",
+            "token",
+            "id_token"
+          ],
+          "revokeRefreshTokenAfterInactivity": "2h",
+          "scope": "openid email profile pydio offline"
+        },
+        {
+          "client_id": "cells-sync",
+          "client_name": "CellsSync Application",
+          "grant_types": [
+            "authorization_code",
+            "refresh_token"
+          ],
+          "redirect_uris": [
+            "http://localhost:3000/servers/callback",
+            "http://localhost:[3636-3666]/servers/callback"
+          ],
+          "response_types": [
+            "code",
+            "token",
+            "id_token"
+          ],
+          "scope": "openid email profile pydio offline"
+        },
+        {
+          "client_id": "cells-client",
+          "client_name": "Cells Client CLI Tool",
+          "grant_types": [
+            "authorization_code",
+            "refresh_token"
+          ],
+          "redirect_uris": [
+            "http://localhost:3000/servers/callback",
+            "https://io.cugli.net/oauth2/oob"
+          ],
+          "response_types": [
+            "code",
+            "token",
+            "id_token"
+          ],
+          "scope": "openid email profile pydio offline"
+        },
+        {
+          "client_id": "cells-mobile",
+          "client_name": "Mobile Applications",
+          "grant_types": [
+            "authorization_code",
+            "refresh_token"
+          ],
+          "redirect_uris": [
+            "cellsauth://callback"
+          ],
+          "response_types": [
+            "code",
+            "token",
+            "id_token"
+          ],
+          "scope": "openid email profile pydio offline"
+        }
+      ]
+    }
+  }
+}
