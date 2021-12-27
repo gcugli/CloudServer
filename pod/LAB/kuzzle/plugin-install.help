@@ -1,0 +1,23 @@
+
+
+cd /var/app    # <kuzzle directory>
+
+mkdir plugins/enabled
+
+cd plugins/available/
+
+apt update      
+apt install wget unzip
+
+wget https://github.com/kuzzleio/kuzzle-plugin-auth-passport-oauth/archive/5.0.2.zip
+
+unzip  5.0.2.zip 
+
+cd kuzzle-plugin-auth-passport-oauth-5.0.2
+npm install --unsafe-perm
+cd ../../enabled/
+ln -s ../available/kuzzle-plugin-auth-passport-oauth-5.0.2 kuzzle-plugin-auth-passport-oauth
+
+
+# Restart Kuzzle to reload plugins
+

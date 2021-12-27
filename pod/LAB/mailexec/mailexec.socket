@@ -1,0 +1,12 @@
+## ln -s /srv/mailexec/mailexec.socket /etc/systemd/system/mailexec.socket
+
+[Unit]
+Description=MailExec SMTP Socket
+
+[Socket]
+ListenStream=0.0.0.0:25
+Accept=yes
+
+[Install]
+WantedBy=sockets.target
+

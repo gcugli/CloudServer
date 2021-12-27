@@ -1,0 +1,16 @@
+## ln -s /srv/mailexec/mailexec@.service /etc/systemd/system/mailexec@.service
+
+[Unit]
+Description=MailExec SMTP Service
+Requires=mailexec.socket
+
+[Service]
+Type=simple
+ExecStart=/srv/mailexec/smtp.php
+StandardInput=socket
+StandardError=journal
+TimeoutStopSec=50
+
+[Install]
+WantedBy=multi-user.target
+

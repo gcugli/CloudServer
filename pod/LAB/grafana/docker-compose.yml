@@ -1,0 +1,25 @@
+version: '2'
+
+services:
+  grafana:
+    image: grafana/grafana:latest
+    restart: unless-stopped
+    environment:
+      GF_SERVER_ROOT_URL: http://grafana.$RPROXYDOMAIN
+      GF_SECURITY_ADMIN_PASSWORD: gTdcWt6HbS2gH2aF
+      GF_INSTALL_PLUGINS: grafana-clock-panel,grafana-simple-json-datasource
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=grafana"
+      - "traefik.port=3000"
+      - "traefik.frontend.rule=Host:grafana.cugli.life"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.STSIncludeSubdomains=false"  # other projects
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.browserXSSFilter=false"
+      - "traefik.frontend.headers.frameDeny=false"
+      - "traefik.frontend.headers.contentTypeNosniff=false"
+    container_name: grafana
+
+
