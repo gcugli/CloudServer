@@ -7,6 +7,7 @@ git config --global alias.ss "status"
 ### Log
 git config --global alias.l  "log --oneline --date=short --format=\"%h %ad %s\""
 git config --global alias.ll "log --oneline --date=short --format=\"%h %ad [%an] %s %d\""
+git config --global alias.lg  "log --oneline --graph --date=short --format=\"%h %ad %s\""
 
 ### Branch
 git config --global alias.b "branch"
@@ -18,6 +19,9 @@ git config --global alias.co "checkout"
 ### Remote
 git config --global alias.r "remote"
 git config --global alias.rr "remote -v"
+
+### Commit
+git config --global alias.cm "commit"
 
 ### Push
 git config --global alias.pom "push -u origin master"
